@@ -1,0 +1,28 @@
+.square {
+	height: 100px;
+	width: 100px;
+  background-color: #303030;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid white;
+}
+
+.on {
+	background-color: #16BFFD;
+  transition: all 0.5s;
+}
+
+.on:hover {
+	background-color: #16BFFD;
+  color: #303030;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.off {
+  background-color: #303030;
+  transition: all 0.5s;
+}
+
+.off:hover {
+  background-color: #3D3D3D;
+}
