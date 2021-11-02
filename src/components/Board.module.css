@@ -6,7 +6,7 @@
 .boardTable {
 	margin: 0 auto;
 	border: 5px solid white;
-	background-color: #263238;
+  height: 120px;
 }
 
 .row {
@@ -51,4 +51,9 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.footer {
+  position: relative;
+  bottom: -435px;
 }

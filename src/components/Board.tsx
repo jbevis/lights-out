@@ -38,6 +38,33 @@ function Board () {
 
   const toggleAdjacent = (coords: string) => {
     console.log(coords)
+    let nrows = board.length
+    let ncols = board[0].length
+    let updatedBoard = board
+		let [ y, x ] = coords.split(',').map(Number);
+
+		function flipCell(y: number, x: number) {
+			// if this coord is actually on board, flip it
+			if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
+				updatedBoard[y][x] = updatedBoard[y][x] ? 0 : 1;
+			}
+		}
+
+		flipCell(y, x); // flip initial cell
+		flipCell(y, x - 1); // flip left cell
+		flipCell(y, x + 1); // flip right cell
+		flipCell(y + 1, x); // flip cell above
+		flipCell(y - 1, x); // flip cell below
+
+		// win when every cell is turned off
+		let hasWon = updatedBoard.every((row) =>
+			row.every((cell) => {
+				return !!cell === false;
+			})
+		);
+    console.log(updatedBoard)
+    setBoard([...updatedBoard])
+    setHasWon(hasWon)
   }
   const restartGame = () => {
     setBoard(createBoard())
@@ -52,7 +79,7 @@ function Board () {
             <Row className={styles.row} key={`Row-${yIdx}`}>
               {row.map((col, xIdx) => {
                 const coord = `${xIdx}, ${yIdx}`
-                console.log(col)
+                console.log({col})
                 return (
                   <Col className={styles.col} key={`Column-${yIdx}`}>
                     <Square
@@ -83,7 +110,7 @@ function Board () {
           <p>Turn off all the lights</p>
         </header>
         {renderBoard()}
-        <footer>
+        <footer className={styles.footer}>
           <button 
             className={styles.button}
             onClick={(e) => {

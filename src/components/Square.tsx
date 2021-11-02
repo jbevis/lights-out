@@ -1,5 +1,4 @@
 import React from "react"
-import { string } from "yargs"
 import styles from './Square.module.css'
 
 export interface SquareProps {
@@ -9,10 +8,10 @@ export interface SquareProps {
 }
 
 function Square({ coord, isOn, toggleAdjacent }: SquareProps) {
-  const { on, off } = styles
-  
+  const { square, on, off } = styles
+  console.log(`${square} ${isOn ? on : off}`)
   return (
-    <div className={isOn ? on : off} onClick={() => toggleAdjacent(coord)}>
+    <div className={`${square} ${isOn ? on : off}`} onClick={() => toggleAdjacent(coord)}>
 
     </div>
   )
