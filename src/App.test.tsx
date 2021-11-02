@@ -2,8 +2,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the game', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const title = screen.getByText(/Lights Out/i);
+  const moves = screen.getByText(/Number of Moves: 0/i);
+  const restartBtn = screen.getByText(/New Game/i);
+
+  expect(title).toBeInTheDocument();
+  expect(moves).toBeInTheDocument();
+  expect(restartBtn).toBeInTheDocument();
 });
