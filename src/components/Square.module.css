@@ -8,12 +8,12 @@
 }
 
 .on {
-	background-color: #16BFFD;
+	background-color: #40dfdf;
   transition: all 0.5s;
 }
 
 .on:hover {
-	background-color: #16BFFD;
+	background-color: #6efcfc;
   color: #303030;
   transition: background-color 0.5s, color 0.5s;
 }

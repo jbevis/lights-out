@@ -9,7 +9,7 @@ export interface SquareProps {
 
 function Square({ coord, isOn, toggleAdjacent }: SquareProps) {
   const { square, on, off } = styles
-  console.log(`${square} ${isOn ? on : off}`)
+  
   return (
     <div className={`${square} ${isOn ? on : off}`} onClick={() => toggleAdjacent(coord)}>
 

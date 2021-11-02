@@ -31,44 +31,55 @@ const createBoard = ({ rows, cols, chanceLightIsOn } = defaultGameConfig) => {
   return board
 }
 
+const Button = ({ handleClick, children }: any) => (
+  <button 
+    className={styles.button}
+    onClick={(e) => {
+    e.preventDefault()
+    handleClick()
+  }}>
+    {children}
+  </button>
+)
+
 function Board () {
   
   const [board, setBoard] = useState(createBoard())
   const [hasWon, setHasWon] = useState(false)
+  const [moves, setMoves] = useState(0)
 
   const toggleAdjacent = (coords: string) => {
-    console.log(coords)
     let nrows = board.length
     let ncols = board[0].length
     let updatedBoard = board
-		let [ y, x ] = coords.split(',').map(Number);
+		let [ x, y ] = coords.split(',').map(Number);
 
-		function flipCell(y: number, x: number) {
-			// if this coord is actually on board, flip it
+		const toggle = (y: number, x: number) => {
 			if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
 				updatedBoard[y][x] = updatedBoard[y][x] ? 0 : 1;
 			}
 		}
 
-		flipCell(y, x); // flip initial cell
-		flipCell(y, x - 1); // flip left cell
-		flipCell(y, x + 1); // flip right cell
-		flipCell(y + 1, x); // flip cell above
-		flipCell(y - 1, x); // flip cell below
+		toggle(y, x); 
+		toggle(y, x - 1); 
+		toggle(y, x + 1); 
+		toggle(y + 1, x); 
+		toggle(y - 1, x); 
 
-		// win when every cell is turned off
 		let hasWon = updatedBoard.every((row) =>
 			row.every((cell) => {
 				return !!cell === false;
 			})
 		);
-    console.log(updatedBoard)
     setBoard([...updatedBoard])
+    setMoves(moves + 1)
     setHasWon(hasWon)
   }
+  
   const restartGame = () => {
     setBoard(createBoard())
     setHasWon(false)
+    setMoves(0)
   }
 
   const renderBoard = () => {
@@ -79,11 +90,10 @@ function Board () {
             <Row className={styles.row} key={`Row-${yIdx}`}>
               {row.map((col, xIdx) => {
                 const coord = `${xIdx}, ${yIdx}`
-                console.log({col})
+                
                 return (
-                  <Col className={styles.col} key={`Column-${yIdx}`}>
+                  <Col className={styles.col} key={coord}>
                     <Square
-                      key={coord}
                       coord={coord}
                       isOn={col}
                       toggleAdjacent={toggleAdjacent}
@@ -101,7 +111,11 @@ function Board () {
     <div className={styles.board}>
       {hasWon && 
         <div className={styles.modal}>
-          <h1 className={styles.modalContent}>Holy Shit You Won!!!!!</h1>
+          <div className={styles.modalContent}>
+            <h1>Huzzah! You Won</h1>
+            <p>...and it only took {moves} moves.</p>
+            <Button handleClick={restartGame}>Try Again</Button>
+          </div>
         </div>
       }
       <div>
@@ -109,17 +123,14 @@ function Board () {
           <h1>Lights Out</h1>
           <p>Turn off all the lights</p>
         </header>
+        <div className={styles.scoreboard}>
+          Number of Moves: {moves}
+        </div>
         {renderBoard()}
         <footer className={styles.footer}>
-          <button 
-            className={styles.button}
-            onClick={(e) => {
-            e.preventDefault()
-            console.log('restarting')
-            restartGame()
-          }}>
+         <Button handleClick={restartGame}>
             New Game
-          </button>
+         </Button>
         </footer>
       </div>
     </div>
